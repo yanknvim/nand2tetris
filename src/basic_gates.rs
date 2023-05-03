@@ -1,36 +1,36 @@
 fn Nand(a: bool, b: bool) -> bool {
-    return !(a && b);
+    !(a && b);
 }
 
 fn Not(a: bool) -> bool {
-    return Nand(a, a);
+    Nand(a, a);
 }
 
 fn And(a: bool, b: bool) -> bool {
-    return Not(Nand(a, b));
+    Not(Nand(a, b));
 }
 
 fn Or(a: bool, b: bool) -> bool {
-    return Nand(Not(a), Not(b));
+    Nand(Not(a), Not(b));
 }
 
 fn Xor(a: bool, b: bool) -> bool {
-    return Nand(Nand(a, Nand(a, b)), Nand(Nand(a, b), b));
+    Nand(Nand(a, Nand(a, b)), Nand(Nand(a, b), b));
 }
 
 fn Mux(a: bool, b: bool, sel: bool) -> bool{
-    return Or(And(a, Not(sel)), And(b, sel));
+    Or(And(a, Not(sel)), And(b, sel));
 }
 
 fn DMux(a: bool, sel: bool) -> (bool, bool){
-    return (
+    (
         And(a, Not(sel)),
         And(b, sel)
     );
 }
 
 fn Not16(a: [bool; 16]) -> [bool; 16] {
-    return [
+    [
         Not(a[0]),
         Not(a[1]),
         Not(a[2]),
@@ -50,6 +50,51 @@ fn Not16(a: [bool; 16]) -> [bool; 16] {
     ];
 }
 
-fn And16(a: [bool; 16], b: [bool: 16]) {
+fn And16(a: [bool; 16], b: [bool; 16]) -> [bool; 16]{
+    [
+        And(a[0], b[0]),
+        And(a[1], b[1]),
+        And(a[2], b[2]),
+        And(a[3], b[3]),
+        And(a[4], b[4]),
+        And(a[5], b[5]),
+        And(a[6], b[6]),
+        And(a[7], b[7]),
+        And(a[8], b[8]),
+        And(a[9], b[9]),
+        And(a[10], b[10]),
+        And(a[11], b[11]),
+        And(a[12], b[12]),
+        And(a[13], b[13]),
+        And(a[14], b[14]),
+        And(a[15], b[15])
+    ];
+}
 
+fn Or16(a: [bool; 16], b: [bool; 16]) -> [bool; 16]{
+    [
+        Or(a[0], b[0]),
+        Or(a[1], b[1]),
+        Or(a[2], b[2]),
+        Or(a[3], b[3]),
+        Or(a[4], b[4]),
+        Or(a[5], b[5]),
+        Or(a[6], b[6]),
+        Or(a[7], b[7]),
+        Or(a[8], b[8]),
+        Or(a[9], b[9]),
+        Or(a[10], b[10]),
+        Or(a[11], b[11]),
+        Or(a[12], b[12]),
+        Or(a[13], b[13]),
+        Or(a[14], b[14]),
+        Or(a[15], b[15])
+    ];
+}
+
+fn Or8Way(a: [bool; 8]) -> bool {
+    Or(
+        Or(Or(a[0], a[1]), Or(a[2], a[3])),
+        Or(Or(a[4], a[5]), Or(a[6], a[7]))
+    ); 
 }
