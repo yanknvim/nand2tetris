@@ -22,11 +22,11 @@ fn Mux(a: bool, b: bool, sel: bool) -> bool{
     Or(And(a, Not(sel)), And(b, sel));
 }
 
-fn DMux(a: bool, sel: bool) -> (bool, bool){
-    (
+fn DMux(a: bool, sel: bool) -> [bool; 2]{
+    [
         And(a, Not(sel)),
         And(b, sel)
-    );
+    ];
 }
 
 fn Not16(a: [bool; 16]) -> [bool; 16] {
@@ -92,9 +92,52 @@ fn Or16(a: [bool; 16], b: [bool; 16]) -> [bool; 16]{
     ];
 }
 
+fn Mux16(a: [bool; 16], b: [bool; 16], sel: bool) -> [bool; 16] {
+    [
+        Mux(a[0], b[0], sel),
+        Mux(a[1], b[1], sel),
+        Mux(a[2], b[2], sel),
+        Mux(a[3], b[3], sel),
+        Mux(a[4], b[4], sel),
+        Mux(a[5], b[5], sel),
+        Mux(a[6], b[6], sel),
+        Mux(a[7], b[7], sel),
+        Mux(a[8], b[8], sel),
+        Mux(a[9], b[9], sel),
+        Mux(a[10], b[10], sel),
+        Mux(a[11], b[11], sel),
+        Mux(a[12], b[12], sel),
+        Mux(a[13], b[13], sel),
+        Mux(a[14], b[14], sel),
+        Mux(a[15], b[15], sel)
+    ];
+}
+
 fn Or8Way(a: [bool; 8]) -> bool {
     Or(
         Or(Or(a[0], a[1]), Or(a[2], a[3])),
         Or(Or(a[4], a[5]), Or(a[6], a[7]))
     ); 
+}
+
+fn Mux4Way16(a: [bool; 16], b: [bool; 16], c: [bool; 16], d: [bool: 16], sel: [bool; 2]) -> [bool; 16] {
+    Mux16(Mux16(a, b, sel[0]), Mux16(c, d, sel[1]));
+}
+
+fn Mux8Way16(a: [bool; 16], b: [bool; 16], c: [bool; 16], d: [bool; 16], e: [bool; 16], f: [bool; 16], g: [bool; 16], h: [bool; 16], sel: [bool; 3]) -> [bool; 16] {
+    Mux16(Mux4Way16(a, b, c, d, [sel[0], sel[1]]), Mux4Way16(e, f, g, h [sel[0], sel[1]]), sel[2]);
+}
+
+fn DMux4Way(input: bool, sel: [bool; 2]) -> [bool; 4] {
+    let [ao, bo] = DMux(input, sel[1]);
+    let [a, b] = DMux(ao, sel[0]);
+    let [c, d] = DMux(bo, sel[0]);
+    [a, b, c, d];
+}
+
+fn DMux8Way(input: bool, sel: [bool; 3]) -> [bool; 8] {
+    let [ao, bo] = DMux(input, sel[2]);
+    let [a, b, c, d] = DMux4Way(ao, [sel[0], sel[1]]);
+    let [e, f, g, h] = DMux4Way(bo, [sel[0], sel[1]]);
+    [a, b, c, d, e, f, g, h];
 }
