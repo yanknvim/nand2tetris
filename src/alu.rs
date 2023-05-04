@@ -16,5 +16,5 @@ pub fn ALU(x: [bool; 16], y: [bool; 16], zx: bool, nx: bool, zy: bool, ny: bool,
         Or8Way([out[8], out[9], out[10], out[11], out[12], out[13], out[14], out[14]]),
     );
     let ng = out[15];
-    (out, zr, ng);
+    (out, zr, ng)
 }

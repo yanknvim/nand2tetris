@@ -3,14 +3,14 @@ use crate::basic_gates::*;
 pub fn HalfAdder(a: bool, b: bool) -> [bool; 2] {
     [
         Xor(a, b),
-        And(A, b)
-    ];
+        And(a, b)
+    ]
 }
 
 pub fn FullAdder(a: bool, b: bool, c: bool) -> [bool; 2] {
     let c1 = HalfAdder(a, b);
     let c2 = HalfAdder(c, c1[0]);
-    [c2[0], Or(c1[1], c2[1])];
+    [c2[0], Or(c1[1], c2[1])]
 }
 
 pub fn Add16(a: [bool; 16], b: [bool; 16]) -> [bool; 16] {
@@ -33,9 +33,9 @@ pub fn Add16(a: [bool; 16], b: [bool; 16]) -> [bool; 16] {
     [
         adder1[0], adder2[0], adder3[0], adder4[0], adder5[0], adder6[0], adder7[0], adder8[0],
         adder9[0], adder10[0], adder11[0], adder12[0], adder13[0], adder14[0], adder15[0], adder16[0]
-    ];
+    ]
 }
 
 fn Inc16(a: [bool; 16]) -> [bool; 16] {
-    Add16(a, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    Add16(a, [true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false])
 }
